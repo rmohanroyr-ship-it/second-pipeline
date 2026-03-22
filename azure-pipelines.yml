@@ -15,10 +15,10 @@ steps:
     packageType: 'sdk'
     version: '8.x'   # safer than 10.x unless you specifically need preview
 
-- script: dotnet restore
+- script: dotnet restore **/*.sln
   displayName: 'Restore dependencies'
 
-- script: dotnet build --configuration $(buildConfiguration) --no-restore
+- script: dotnet build **/*.sln --configuration $(buildConfiguration)
   displayName: 'Build project'
 
 - script: dotnet test --configuration $(buildConfiguration) --no-build --verbosity normal
