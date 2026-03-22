@@ -12,7 +12,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '8.0.x'
+    version: '10.x
   displayName: 'Install .NET SDK'
 
 - script: dotnet restore
@@ -23,3 +23,4 @@ steps:
 
 - script: dotnet run
   displayName: 'Run app'
+
