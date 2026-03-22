@@ -15,7 +15,13 @@ steps:
     packageType: 'sdk'
     version: '8.x'   # safer than 10.x unless you specifically need preview
 
-- script: dotnet restore src/MyApp/MySolution.sln
+    - script: |
+    echo "Listing files..."
+    ls -R
+  displayName: Debug repo structure
+
+
+- script: dotnet restore MyApp/MySolution.sln
 
 - script: dotnet build **/*.sln --configuration $(buildConfiguration)
   displayName: 'Build project'
