@@ -10,17 +10,25 @@ variables:
 steps:
 
 - task: UseDotNet@2
+  displayName: 'Install .NET SDK'
   inputs:
     packageType: 'sdk'
-    version: '10.x
-  displayName: 'Install .NET SDK'
+    version: '8.x'   # safer than 10.x unless you specifically need preview
 
 - script: dotnet restore
   displayName: 'Restore dependencies'
 
-- script: dotnet build --configuration $(buildConfiguration)
+- script: dotnet build --configuration $(buildConfiguration) --no-restore
   displayName: 'Build project'
 
-- script: dotnet run
-  displayName: 'Run app'
+- script: dotnet test --configuration $(buildConfiguration) --no-build --verbosity normal
+  displayName: 'Run tests'
 
+- script: dotnet publish --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
+  displayName: 'Publish app'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Upload artifacts'
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
